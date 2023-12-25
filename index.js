@@ -46,6 +46,41 @@ async function run() {
     })
 
 
+    app.put('/createTask/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) }
+      const options = { upsert: true };
+      const updatemarks = req.body
+      const marks = {
+        $set: {
+          status: updatemarks.status,
+
+        }
+      }
+      const result = await taskCollection.updateOne(filter, marks, options)
+      res.send(result);
+    })
+
+
+    app.put('/taskUpdate/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) }
+      const options = { upsert: true };
+      const updatemarks = req.body
+      const marks = {
+        $set: {
+          title: updatemarks.title,
+          deadline: updatemarks.deadline,
+          category: updatemarks.category,
+          description: updatemarks.description,
+
+        }
+      }
+      const result = await taskCollection.updateOne(filter, marks, options)
+      res.send(result);
+    })
+
+
     // Send a ping to confirm a successful connection
 
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
